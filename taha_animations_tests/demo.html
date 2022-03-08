@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+</head>
+<body>
+
+    <script>
+    var config = {
+        type: Phaser.AUTO,
+        width: 1920,
+        height: 1080,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 200 }
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    function preload ()
+    {
+  
+        this.load.image('space', 'Space Background4.png');
+
+
+        this.load.spritesheet('planet', 'wetPlanetSheet.png',{frameWidth: 500, frameHeight: 500});
+        this.load.spritesheet('planet2', 'bigPlanet2.png', {frameWidth: 250, frameHeight: 250});      
+
+
+        this.load.spritesheet('missile', 'missile_flying.png',{frameWidth: 141, frameHeight: 517});
+        this.load.image('stationary_missile', 'missle.png')
+
+        
+        
+    }
+
+    function create ()
+    {
+        this.add.image(960, 540, 'space');
+
+
+
+
+        this.anims.create({
+            key: "wet_animate",
+            frames: this.anims.generateFrameNumbers('planet'),
+            frameRate: 7,
+            repeat: -1
+        })
+
+        
+        this.anims.create({
+            key: "dry_animate",
+            frames: this.anims.generateFrameNumbers('planet2'),
+            frameRate: 7,
+            repeat: -1
+        })
+
+
+
+        this.anims.create({
+            key: "rocket",
+            frames: this.anims.generateFrameNumbers('missile'),
+            frameRate: 10,
+            repeat: -1
+        })
+
+
+        plan = this.add.sprite(960,-2000).setScale(2.5);
+        plan.angle = 0
+        plan.play('wet_animate');
+
+
+        rock = this.add.sprite(960,600).setScale(0.5);
+        rock.angle = 0
+        rock.play('rocket')
+        
+
+        this.cursors = this.input.keyboard.addKeys('LEFT,RIGHT,UP,DOWN');
+
+
+        init = false
+        correct = false
+        incorrect = false
+        play_animation1 = false
+        planet_Switcher = false
+
+
+
+
+
+    }
+    
+    function update()
+    {
+
+
+
+        if(init == false){
+            if(plan.y < 1500){
+                plan.y += 10
+            }
+            else if(rock.y < 850){
+                rock.y += 10
+            }
+            if(rock.y > 849){
+                rock.destroy();
+                rock = this.add.image(960,850, 'stationary_missile').setScale(0.5)
+                init = true
+            } 
+        }
+
+        
+        if(play_animation1 == false && this.cursors.UP.isDown){
+            correct = true
+            incorrect = false
+            play_animation1 = true
+        }
+        else if(this.cursors.DOWN.isDown && play_animation2 == false){
+            incorrect = true
+            correct = false
+            play_animation2 = true
+        }
+
+        
+        
+        
+        
+        //Initialises correct animation
+        if(correct == true){
+            plan2 = this.add.sprite(960, -2000).setScale(2.5);
+            if(planet_Switcher == false){
+                plan2.play('dry_animate')
+                planet_Switcher = true
+            }
+            else{
+                plan2.play('wet_animate')
+                planet_Switcher = false
+            }
+            rock.destroy()
+            rock = this.add.sprite(960,850).setScale(0.5);
+            rock.play('rocket')
+            correct = false
+        }
+
+
+        //play the correct animation
+        if(play_animation1 == true){
+            if(rock.y > 600 && plan.y < 5000){
+                rock.y += -10
+            }
+            else if(plan.y < 5000){
+                plan.y += 10
+                plan2.y += 10
+            }
+            else if(rock.y < 850){
+                rock.y += 10
+            }
+            if(rock.y > 849){
+                rock.destroy();
+                rock = this.add.image(960,850, 'stationary_missile').setScale(0.5)
+                play_animation1 = false
+                plan.destroy();
+                plan = plan2;
+            } 
+        }
+
+
+
+        if(incorrect == true){
+        }
+
+
+
+
+        
+
+
+    }
+
+
+    </script>
+
+</body>
+</html>
