@@ -36,13 +36,17 @@
         
     }
 
+    var button
+
     function create ()
     {
         this.add.image(960, 540, 'space');
 
 
         // this.add.sprite(960, 540, "planet");
+        
 
+        button = game.add.button(960, 540, 'button', actionOnClick, this, 2, 1, 0)
 
         this.anims.create({
             key: "animat",
@@ -60,7 +64,7 @@
 
         plan = this.add.sprite(960,1400).setScale(5);
         plan.angle = 0
-        plan.play('animat', true);
+        plan.play('animat');
 
         rock = this.add.sprite(960,600).setScale(0.5);
         rock.angle = 0
@@ -76,43 +80,43 @@
         if(this.cursors.DOWN.isDown){
 
         }
-        // if(this.cursors.RIGHT.isDown && this.cursors.UP.isDown){
-        //     plan.play('animat', false)
-        //     rock.angle = 45
-        //     rock.x += 5
-        //     rock.y += -5
-        // }
-        // else if(this.cursors.RIGHT.isDown && this.cursors.DOWN.isDown){
-        //     rock.angle = 135
-        //     rock.x +=5
-        //     rock.y += 5
-        // }
-        // else if(this.cursors.LEFT.isDown && this.cursors.UP.isDown){
-        //     rock.angle = -45
-        //     rock.x += -5
-        //     rock.y += -5
-        // }
-        // else if(this.cursors.LEFT.isDown && this.cursors.DOWN.isDown){
-        //     rock.angle = -135
-        //     rock.x += -5
-        //     rock.y += 5
-        // } 
-        // else if(this.cursors.RIGHT.isDown){
-        //     rock.angle = 90
-        //     rock.x += 5
-        // }
-        // else if(this.cursors.LEFT.isDown){
-        //     rock.angle = -90
-        //     rock.x += -5
-        // }
-        // else if(this.cursors.UP.isDown){
-        //     rock.angle = 0
-        //     rock.y += -5
-        // }
-        // else if(this.cursors.DOWN.isDown){
-        //     rock.angle = 180
-        //     rock.y += +5
-        // }
+        if(this.cursors.RIGHT.isDown && this.cursors.UP.isDown){
+            plan.play('animat', false)
+            rock.angle = 45
+            rock.x += 5
+            rock.y += -5
+        }
+        else if(this.cursors.RIGHT.isDown && this.cursors.DOWN.isDown){
+            rock.angle = 135
+            rock.x +=5
+            rock.y += 5
+        }
+        else if(this.cursors.LEFT.isDown && this.cursors.UP.isDown){
+            rock.angle = -45
+            rock.x += -5
+            rock.y += -5
+        }
+        else if(this.cursors.LEFT.isDown && this.cursors.DOWN.isDown){
+            rock.angle = -135
+            rock.x += -5
+            rock.y += 5
+        } 
+        else if(this.cursors.RIGHT.isDown){
+            rock.angle = 90
+            rock.x += 5
+        }
+        else if(this.cursors.LEFT.isDown){
+            rock.angle = -90
+            rock.x += -5
+        }
+        else if(this.cursors.UP.isDown){
+            rock.angle = 0
+            rock.y += -5
+        }
+        else if(this.cursors.DOWN.isDown){
+            rock.angle = 180
+            rock.y += +5
+        }
 
     }
 

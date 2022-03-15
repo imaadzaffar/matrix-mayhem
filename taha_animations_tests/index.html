@@ -18,7 +18,8 @@
         },
         scene: {
             preload: preload,
-            create: create
+            create: create,
+            update: update
         }
     };
 
@@ -27,18 +28,44 @@
     function preload ()
     {
         this.load.image('space', 'Space Background2.png')
-        this.load.image('moon', 'moonStill.png')
-        //this.load.spritesheet('planet', 'sprite.png', 250, 250, 50);
-        
-        
+        this.load.spritesheet('planet', 'wetPlanetSheet.png',{frameWidth: 500, frameHeight: 500});
+
     }
 
     function create ()
     {
+        this.anims.create({
+            key: "wet_animate",
+            frames: this.anims.generateFrameNumbers('planet'),
+            frameRate: 7,
+            repeat: -1
+        })
+
         this.add.image(960, 540, 'space');
-        im = this.add.image(100,1200, 'moon')
-        im.setScale(0.4);
+        plan = this.add.sprite(960,540).setScale(2);
+        plan.angle = 0
+        plan.play('wet_animate');
+
+        this.cursors = this.input.keyboard.addKeys('LEFT,RIGHT,UP,DOWN');
+
+        confirm = false
     }
+
+    
+    
+    
+    
+    function update()
+    {
+        plan.angle += 1
+        if(plan.angle > 178){
+            plan.destroy()
+        }
+
+
+    }
+
+
     </script>
 
 </body>
