@@ -4,8 +4,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const productRoutes = require("./api/routes/products");
-const orderRoutes = require("./api/routes/orders");
+const questionRoutes = require("./api/routes/questions");
 const userRoutes = require("./api/routes/user");
 
 mongoose.connect(
@@ -31,8 +30,7 @@ app.use((req, res, next) => {
 });
 
 // Routes which should handle requests
-app.use("/products", productRoutes);
-app.use("/orders", orderRoutes);
+app.use("/questions", questionRoutes);
 app.use("/user", userRoutes);
 
 // No valid route reached - error handling
