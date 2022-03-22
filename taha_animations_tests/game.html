@@ -192,6 +192,7 @@
 
             this.title;
             this.startButton;
+            this.reset;
 
             this.text.depth = 1;
           },
@@ -201,17 +202,23 @@
           },
 
           makeTitleScreen: function (space){
-            this.title = space.add.image(960, 300, 'title')
-            this.startButton = space.add.text(960,540, 'Click to start!!!!', {fill: '#0f0'});
+            this.title = space.add.image(960, 300, 'title').setScale(2)
+            this.startButton = space.add.text(660,840, 'Click to start!!!!', {fill: '#0f0'}).setScale(3);
             this.startButton.depth = 5
             this.startButton.setInteractive();
-
-
           },
 
           deleteTitleScreen: function (space){
             this.title.destroy()
             this.startButton.destroy()
+          },
+
+          reset_alt: function (space){
+            if(this.reset != null){
+              this.reset.destroy()
+            } else{
+              this.reset = space.add.text(500, 940, 'Click to return to title screen', { fill: '#0f0'}).setScale(3)
+            }
           }
 
         });
@@ -334,7 +341,7 @@
               console.log(this.counter);
               if (this.asteroid.y < 1500) {
                 this.asteroid.angle += 2;
-                this.asteroid.y += 12;
+                this.asteroid.y += 20;
               } else {
                 this.asteroid.destroy();
                 this.asteroid = space.add
@@ -371,8 +378,8 @@
             this.asteroid = new Asteroid();
             this.text = new Text(space);
 
-            // this.text.makeTitleScreen(space)
-            // this.text.startButton.on('pointerdown', () => {mayhem.game_state = 1})
+            this.text.makeTitleScreen(space)
+            this.text.startButton.on('pointerdown', () => {mayhem.game_state = 1})
 
 
           },
@@ -380,6 +387,12 @@
           reset: function (space) {
             space.add.displayList.removeAll();
             space.add.image(960, 540, "space");
+            //this.text.destroy()
+            this.text = new Text(space);
+
+            this.text.makeTitleScreen(space)
+            this.text.startButton.on('pointerdown', () => {mayhem.game_state = 1})
+
             this.game_state = 0;
           },
 
@@ -455,9 +468,12 @@
             }
           },
 
-          game_over: function () {
+          game_over: function (space) {
             if (this.assetup) {
               this.text.generateText("GAME OVER");
+              this.text.reset_alt(space)
+              this.text.reset.setInteractive()
+              this.text.reset.on('pointerdown', () => {this.reset(space)})
               this.assetup = false;
             }
 
@@ -499,7 +515,7 @@
         play_animation = false;
         this.cursors = this.input.keyboard.addKeys("LEFT,RIGHT,UP,DOWN");
 
-        mayhem.game_state = 1;
+        //mayhem.game_state = 1;
         correct = false;
 
 
@@ -513,7 +529,7 @@
 
       function update() {
         if (mayhem.game_state == 1) {
-           
+          mayhem.text.deleteTitleScreen(this)
           mayhem.start(this);
         }
 
@@ -534,7 +550,7 @@
         } else if (mayhem.game_state == 5) {
           mayhem.last_chance(this);
         } else if (mayhem.game_state == 6) {
-          mayhem.game_over();
+          mayhem.game_over(this);
         }
       } 
     </script>
