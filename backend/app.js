@@ -4,8 +4,9 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const questionRoutes = require("./api/routes/questions");
 const userRoutes = require("./api/routes/user");
+const questionRoutes = require("./api/routes/questions");
+const resultRoutes = require("./api/routes/results");
 
 mongoose.connect(
   "mongodb+srv://admin:" + process.env.MONGO_ATLAS_PW + "@db.ikban.mongodb.net/db?retryWrites=true&w=majority",
@@ -30,8 +31,9 @@ app.use((req, res, next) => {
 });
 
 // Routes which should handle requests
-app.use("/questions", questionRoutes);
 app.use("/user", userRoutes);
+app.use("/questions", questionRoutes);
+app.use("/results", resultRoutes);
 
 // No valid route reached - error handling
 app.use((req, res, next) => {
